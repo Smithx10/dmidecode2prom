@@ -14,13 +14,17 @@ func main() {
 		fmt.Printf("Unable to get dmidecode information. Error: %v\n", err)
 	}
 
-	var resultString string
+	replacer := strings.NewReplacer("-", "_", " ", "_")
+	var returnString string
+	var strSlice []string
+
 	for _, records := range dmi.Data {
 		for _, record := range records {
 			for k, v := range record {
-				resultString += fmt.Sprintf("dmidecode_%s{%s=\"%s\"} 1 \n", strings.Replace(strings.ToLower(record["DMIName"]), " ", "_", 5), strings.Replace(strings.ToLower(k), " ", "_", 5), v)
+				strSlice = append(strSlice, fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(k)), v))
 			}
+			returnString += fmt.Sprintf("dmidecode_%s{%s} 1\n", replacer.Replace(strings.ToLower(record["DMIName"])), fmt.Sprintf(strings.Join(strSlice, ",")))
 		}
 	}
-	fmt.Println(resultString)
+	fmt.Println(returnString)
 }
