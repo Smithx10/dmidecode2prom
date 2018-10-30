@@ -15,16 +15,17 @@ func main() {
 	}
 
 	replacer := strings.NewReplacer("-", "_", " ", "_")
-	var returnString string
-	var strSlice []string
+	x := make(map[string][]string)
 
 	for _, records := range dmi.Data {
 		for _, record := range records {
+			//fmt.Println(record)
 			for k, v := range record {
-				strSlice = append(strSlice, fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(k)), v))
+				x[replacer.Replace(strings.ToLower(record["DMIName"]))] = append(x[replacer.Replace(strings.ToLower(record["DMIName"]))], fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(k)), v))
 			}
-			returnString += fmt.Sprintf("dmidecode_%s{%s} 1\n", replacer.Replace(strings.ToLower(record["DMIName"])), fmt.Sprintf(strings.Join(strSlice, ",")))
 		}
 	}
-	fmt.Println(returnString)
+	for k, v := range x {
+		fmt.Printf("dmidecode_%s{\"%s\"} 1\n", k, strings.Join(v, ","))
+	}
 }
