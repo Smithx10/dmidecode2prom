@@ -26,6 +26,6 @@ func main() {
 		}
 	}
 	for k, v := range x {
-		fmt.Printf("dmidecode_%s{\"%s\"} 1\n", k, strings.Join(v, ","))
+		fmt.Printf("dmidecode_%s{%s} 1\n", k, strings.Join(v, ","))
 	}
 }
