@@ -21,7 +21,7 @@ func main() {
 		for _, record := range records {
 			//fmt.Println(record)
 			for k, v := range record {
-				x[replacer.Replace(strings.ToLower(record["DMIName"]))] = append(x[replacer.Replace(strings.ToLower(record["DMIName"]))], fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(k)), v))
+				x[replacer.Replace(strings.ToLower(record["DMIName"]))] = append(x[replacer.Replace(strings.ToLower(record["DMIName"]))], fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(k)), strings.Replace(v, "\"", "\\\"", -1)))
 			}
 		}
 	}
