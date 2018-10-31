@@ -60,10 +60,10 @@ func main() {
 
 			}
 			// Process the rest without special formatting
-			if record["DMIName"] != "BIOS Information" || record["DMIName"] != "Memory Device" {
+			if record["DMIName"] != "BIOS Information" && record["DMIName"] != "Memory Device" {
 				for k, v := range record {
 
-					x[replacer.Replace(strings.ToLower(record["DMIName"]))] = append(x[replacer.Replace(strings.ToLower(record["DMIName"]))], fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(k)), strings.Replace(v, "\"", "\\\"", -1)))
+					x[replacer.Replace(strings.ToLower(record["DMIName"]))] = append(x[replacer.Replace(strings.ToLower(record["DMIName"]))], fmt.Sprintf("%s=\"%s\"", replacer.Replace(strings.ToLower(strings.Replace(k, "\"", "\\\"", -1))), strings.Replace(v, "\"", "\\\"", -1)))
 				}
 			}
 		}
